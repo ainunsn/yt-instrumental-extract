@@ -1,3 +1,6 @@
+## Demo
+[Watch the video](https://github.com/user-attachments/assets/60284938-df8f-437a-b9bd-577a57c3db86)
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
