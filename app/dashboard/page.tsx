@@ -16,12 +16,12 @@ export default async function DashboardPage() {
       <div className='mx-auto max-w-6xl p-8'>
         <div className='mb-10'>
           <h1 className='text-4xl font-bold text-violet-700'>
-            Instrumental Extract Dashboard
+            Instrumental Extract
           </h1>
 
           <p className='mt-2 text-slate-500'>
             Submit YouTube videos and manage extracted
-            vocals.
+            instrumentals.
           </p>
         </div>
 

@@ -59,9 +59,9 @@ async function processJob(jobId: string) {
       },
       data: {
         status: 'COMPLETED',
-        vocalsPath: `${jobId}/htdemucs/${jobId}/vocals.mp3`,
-        instrumentalPath: `${jobId}/htdemucs/${jobId}/no_vocals.mp3`,
-        audioPath: `${jobId}/${jobId}.mp3`,
+        vocalsPath: `audios/${jobId}/htdemucs/${jobId}/vocals.mp3`,
+        instrumentalPath: `audios/${jobId}/htdemucs/${jobId}/no_vocals.mp3`,
+        audioPath: `audios/${jobId}/${jobId}.mp3`,
         youtubeTitle: downloaded.youtubeTitle,
       },
     })
