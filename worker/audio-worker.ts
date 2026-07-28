@@ -1,13 +1,12 @@
-require('dotenv').config()
 import { PrismaClient } from '@/app/generated/prisma/client'
 import { separateAudio } from '@/app/lib/demucs'
 import { downloadYoutubeAudio } from '@/app/lib/youtube'
 import { PrismaPg } from '@prisma/adapter-pg'
-
+require('dotenv').config()
 const prisma = new PrismaClient({
   adapter: new PrismaPg({
     connectionString: process.env.DATABASE_URL!,
-  })
+  }),
 })
 
 async function processJob(jobId: string) {
@@ -21,21 +20,17 @@ async function processJob(jobId: string) {
       },
     })
 
-    const job =
-      await prisma.audioJob.findUnique({
-        where: {
-          id: jobId,
-        },
-      })
+    const job = await prisma.audioJob.findUnique({
+      where: {
+        id: jobId,
+      },
+    })
 
     console.log(job, 'this is job')
 
     if (!job) return
 
-    console.log(
-      'Processing:',
-      job.youtubeUrl
-    )
+    console.log('Processing:', job.youtubeUrl)
 
     /*
       1. Download youtube audio
@@ -48,10 +43,7 @@ async function processJob(jobId: string) {
 
     console.log(downloaded, 'downloaded file')
 
-    await separateAudio(
-      downloaded.destination,
-      jobId
-    );
+    await separateAudio(downloaded.destination, jobId)
 
     await prisma.audioJob.update({
       where: {
@@ -66,10 +58,7 @@ async function processJob(jobId: string) {
       },
     })
 
-    console.log(
-      'Completed:',
-      jobId
-    )
+    console.log('Completed:', jobId)
   } catch (error) {
     await prisma.audioJob.update({
       where: {
@@ -77,10 +66,7 @@ async function processJob(jobId: string) {
       },
       data: {
         status: 'FAILED',
-        error:
-          error instanceof Error
-            ? error.message
-            : 'Unknown error',
+        error: error instanceof Error ? error.message : 'Unknown error',
       },
     })
   }
@@ -88,22 +74,19 @@ async function processJob(jobId: string) {
 
 async function runWorker() {
   while (true) {
-    const job =
-      await prisma.audioJob.findFirst({
-        where: {
-          status: 'PENDING',
-        },
-        orderBy: {
-          createdAt: 'asc',
-        },
-      })
+    const job = await prisma.audioJob.findFirst({
+      where: {
+        status: 'PENDING',
+      },
+      orderBy: {
+        createdAt: 'asc',
+      },
+    })
 
     if (job) {
       await processJob(job.id)
     } else {
-      await new Promise((resolve) =>
-        setTimeout(resolve, 5000)
-      )
+      await new Promise((resolve) => setTimeout(resolve, 5000))
     }
   }
 }

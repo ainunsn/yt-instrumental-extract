@@ -7,12 +7,11 @@ const ytDlp = new YtDlp()
 
 export async function downloadYoutubeAudio(
   youtubeUrl: string,
-  jobId: string
+  jobId: string,
 ): Promise<{
-  youtubeTitle: string,
-  destination: string
+  youtubeTitle: string;
+  destination: string;
 }> {
-
   try {
     const result = await ytDlp
       .download(youtubeUrl)
@@ -22,7 +21,7 @@ export async function downloadYoutubeAudio(
       .on('progress', (p) => console.log(`${p.percentage_str}`))
       .run()
 
-    const outputPath = path.join(process.cwd(), `public/${jobId}`)
+    const outputPath = path.join(process.cwd(), `public/audios/${jobId}`)
     if (!fs.existsSync(outputPath)) {
       fs.mkdirSync(outputPath, { recursive: true })
     }
@@ -30,10 +29,7 @@ export async function downloadYoutubeAudio(
     const source = result.filePaths[0]
     const name = result.filePaths[0].split('/').pop()?.split('.')[0] || 'audio'
 
-    const destination = path.join(
-      outputPath,
-      `${jobId}.mp3`
-    )
+    const destination = path.join(outputPath, `${jobId}.mp3`)
 
     await convertmp4tomp3(source, destination)
 
@@ -41,7 +37,7 @@ export async function downloadYoutubeAudio(
 
     return {
       youtubeTitle: `${name}.mp3`,
-      destination: destination
+      destination: destination,
     }
   } catch (error) {
     throw new Error(`Failed to download audio: ${error}`)
