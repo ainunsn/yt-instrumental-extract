@@ -8,7 +8,7 @@ export async function separateAudio(
 ) {
   const outputDir = path.join(
     process.cwd(),
-    `public/${jobId}`
+    `public/audios/${jobId}`
   )
 
   await execCommand(`
