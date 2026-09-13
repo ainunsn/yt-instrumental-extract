@@ -16,7 +16,7 @@ export async function downloadYoutubeAudio(
     const result = await ytDlp
       .download(youtubeUrl)
       .filter('mergevideo')
-      .quality('360p')
+      .quality('720p')
       .type('mp4')
       .on('progress', (p) => console.log(`${p.percentage_str}`))
       .run()
@@ -33,7 +33,7 @@ export async function downloadYoutubeAudio(
 
     await convertmp4tomp3(source, destination)
 
-    fs.rmSync(source, { force: true })
+    // fs.rmSync(source, { force: true })
 
     return {
       youtubeTitle: `${name}.mp3`,
